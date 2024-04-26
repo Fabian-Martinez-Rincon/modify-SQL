@@ -9,6 +9,6 @@ PATH_OLD_FILE=C:\Users_example\User_Example\Desktop\directory1
 PATH_NEW_FILE=C:\Users_example\User_Example\Desktop\directory2
 ```
 
-## Ejemplo
+## Resultado (Con los ejemplos dados)
 
 ![image](https://github.com/Fabian-Martinez-Rincon/modify-SQL/assets/55964635/1dfc8b21-bf12-4851-a74a-03c25a625828)
