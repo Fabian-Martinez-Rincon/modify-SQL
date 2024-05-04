@@ -12,3 +12,5 @@ PATH_NEW_FILE=C:\Users_example\User_Example\Desktop\directory2
 ## Resultado (Con los ejemplos dados)
 
 ![image](https://github.com/Fabian-Martinez-Rincon/modify-SQL/assets/55964635/1dfc8b21-bf12-4851-a74a-03c25a625828)
+
+Este software se podria escalar a una carpeta con muchos archivos y compararlos, pero para este caso solo se comparan dos archivos.
