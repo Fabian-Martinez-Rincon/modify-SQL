@@ -1,5 +1,11 @@
 ## File Comparator
 
+
+
+https://github.com/Fabian-Martinez-Rincon/modify-SQL/assets/55964635/169358a1-b7e9-4904-9ba3-2afcdbd83dd3
+
+
+
 Tenemos un archivo .env_example que es el que contendra los path de los directorios a comparar. Este lo renombramos a .env y le agregamos los path de los directorios a comparar.
 
 - Si estamos en windows, podemos dar doble click en el path arriba del directorio y luego copiar eso.
