@@ -36,7 +36,6 @@ class FileUtils:
             raise Exception(f"Error general al leer '{path}': {e}")
 
 
-
 class FileComparatorService:
     """
     Servicio encargado de comparar archivos entre dos directorios.
