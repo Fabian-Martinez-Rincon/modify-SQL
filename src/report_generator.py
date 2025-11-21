@@ -1,39 +1,96 @@
 import xlsxwriter
+from typing import List, Dict
 
-def generate_report(data, filename='comparacion.xlsx'):
-    workbook = xlsxwriter.Workbook(filename)
-    worksheet = workbook.add_worksheet()
+class ReportStyles:
+    """
+    Contiene los estilos usados dentro del reporte Excel.
+    No tiene lógica, solo valores constantes.
+    """
+    BORDER_COLOR = "black"
 
-    cell_format = workbook.add_format({'text_wrap': True, 'border': 1, 'border_color': 'black'})
+    BASE = {
+        "text_wrap": True,
+        "border": 1,
+        "border_color": BORDER_COLOR
+    }
 
-    format_iguales = workbook.add_format({'bg_color': '#98FB98', 'text_wrap': True, 'border': 1, 'border_color': 'black'})
-    format_diferentes = workbook.add_format({'bg_color': '#F0F8FF', 'text_wrap': True, 'border': 1, 'border_color': 'black'})
-    format_nueva = workbook.add_format({'bg_color': '#FFFACD', 'text_wrap': True, 'border': 1, 'border_color': 'black'})
+    EQUAL = {
+        "bg_color": "#98FB98",
+        "text_wrap": True,
+        "border": 1,
+        "border_color": BORDER_COLOR
+    }
 
-    headers = ['Nombre', 'Estado', 'Modificación']
-    worksheet.write('A1', headers[0],cell_format)
-    worksheet.write('B1', headers[1],cell_format)
-    worksheet.write('C1', headers[2], cell_format)
+    DIFF = {
+        "bg_color": "#F0F8FF",
+        "text_wrap": True,
+        "border": 1,
+        "border_color": BORDER_COLOR
+    }
 
-    worksheet.set_column('A:A', 30) 
-    worksheet.set_column('B:B', 20) 
-    worksheet.set_column('C:C', 100)  
+    NEW = {
+        "bg_color": "#FFFACD",
+        "text_wrap": True,
+        "border": 1,
+        "border_color": BORDER_COLOR
+    }
 
-    for row_num, item in enumerate(data, 1):
-        row_format = None
-        if item['modificacion'] == "Iguales":
-            row_format = format_iguales
-        elif item['modificacion'] == "---" or item['modificacion'] == "Diferentes tamaños":
-            row_format = format_diferentes
-        else:
-            row_format = format_nueva
 
-        worksheet.write(row_num, 0, item['nombre'], row_format)
-        worksheet.write(row_num, 1, item['estado'], row_format)
-        worksheet.write(row_num, 2, item['modificacion'], row_format)
+class ReportConfig:
+    """
+    Constantes generales de configuración para el reporte.
+    """
+    HEADERS = ["Nombre", "Estado", "Modificación"]
 
-    worksheet.set_column('A:A', 30)
-    worksheet.set_column('B:B', 10)
+    COLUMN_WIDTHS = {
+        "A": 30,
+        "B": 20,
+        "C": 100
+    }
 
-    workbook.close()
 
+class ReportGenerator:
+    """
+    Genera un archivo Excel basado en configuraciones externas y estilos.
+    """
+
+    def __init__(self, filename: str = "comparacion.xlsx"):
+        self.filename = filename
+        self.workbook = xlsxwriter.Workbook(filename)
+        self.worksheet = self.workbook.add_worksheet()
+
+        # Crear formatos desde estilos externos
+        self.cell_base = self.workbook.add_format(ReportStyles.BASE)
+        self.format_equal = self.workbook.add_format(ReportStyles.EQUAL)
+        self.format_diff = self.workbook.add_format(ReportStyles.DIFF)
+        self.format_new = self.workbook.add_format(ReportStyles.NEW)
+
+    def set_headers(self, headers: List[str]) -> None:
+        for col, header in enumerate(headers):
+            self.worksheet.write(0, col, header, self.cell_base)
+
+        for col_letter, width in ReportConfig.COLUMN_WIDTHS.items():
+            self.worksheet.set_column(f"{col_letter}:{col_letter}", width)
+
+    def add_rows(self, data: List[Dict]) -> None:
+        for row, item in enumerate(data, 1):
+            modification = item.get("modificacion", "")
+
+            if modification == "Iguales":
+                fmt = self.format_equal
+            elif modification in ("---", "Diferentes tamaños"):
+                fmt = self.format_diff
+            else:
+                fmt = self.format_new
+
+            self.worksheet.write(row, 0, item["nombre"], fmt)
+            self.worksheet.write(row, 1, item["estado"], fmt)
+            self.worksheet.write(row, 2, modification, fmt)
+
+    def close(self) -> None:
+        self.workbook.close()
+
+    def generate(self, data: List[Dict]) -> None:
+        self.set_headers(ReportConfig.HEADERS)
+        self.add_rows(data)
+        self.close()
