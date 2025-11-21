@@ -30,7 +30,6 @@ modify-SQL/
 │── .env_example
 │── src/
 │   ├── comparator_service.py
-│   ├── comparator.py
 │   ├── report_generator.py
 │   ├── report_constants.py
 │   ├── file_utils.py
@@ -67,5 +66,3 @@ PATH_NEW_FILE=C:\Users_example\User_Example\Desktop\directory2
 Este software se podria escalar a una carpeta con muchos archivos y compararlos, pero para este caso solo se comparan dos archivos.
 
 ---
-
-### 📂 Documentación por archivo
