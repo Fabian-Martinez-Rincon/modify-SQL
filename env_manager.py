@@ -46,9 +46,6 @@ class VirtualEnvManager:
         subprocess.check_call([self.python_executable, "-m", "pip", "install", "-r", self.requirements_file])
         print("Dependencias instaladas")
 
-    # --------------------------
-    #  Ejecutar comandos dentro del venv
-    # --------------------------
     def run_module(self, module_name: str) -> None:
         """Ejecuta un módulo Python dentro del entorno virtual."""
         print(f"Ejecutando módulo: {module_name}")

@@ -1,7 +1,41 @@
 import os
 from typing import List, Dict
-from src.file_utils import fileList
 from src.comparator import FileComparator
+
+
+class FileUtils:
+    """
+    Utilidades relacionadas con manejo de archivos.
+    """
+
+    @staticmethod
+    def list_directory(path: str) -> List[str]:
+        """
+        Retorna la lista de archivos contenidos en un directorio.
+
+        Parameters
+        ----------
+        path : str
+            Ruta del directorio a listar.
+
+        Returns
+        -------
+        list[str]
+            Lista de nombres de archivo dentro del directorio.
+        """
+        try:
+            archivos = list()
+            for nombre in os.listdir(path):
+                archivos.append(nombre)
+            return archivos
+
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Error: No se encontró el directorio: {path}")
+
+        except Exception as e:
+            raise Exception(f"Error general al leer '{path}': {e}")
+
+
 
 class FileComparatorService:
     """
@@ -25,10 +59,11 @@ class FileComparatorService:
         de ambos directorios.
         """
         comparator = FileComparator()
+        fileList = FileUtils.list_directory
         old_files = fileList(self.old_path)
         new_files = fileList(self.new_path)
 
-        results = []
+        results = list()
 
         for file in new_files:
             if file in old_files:
